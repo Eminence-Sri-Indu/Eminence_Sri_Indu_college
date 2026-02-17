@@ -9,6 +9,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="css/hero-animation.css" rel="stylesheet">
+    <style>
+/* Override fixed width/height from HTML */
+#sponsor1,
+#sponsor2 {
+  width: 100% !important;
+  max-width: 260px;
+  height: auto !important;
+  display: block;
+  margin: 12px auto;
+  border-radius: 12px;
+  background: #fff;       /* makes logos pop */
+  padding: 10px;
+  object-fit: contain;
+}
+
+/* ===============================
+   Tablet
+================================ */
+@media (min-width: 600px) {
+  #sponsor1,
+  #sponsor2 {
+    max-width: 350px;
+  }
+
+  .dept-card h1 {
+    font-size: 1.9rem;
+  }
+}
+
+/* ===============================
+   Desktop Layout
+================================ */
+@media (min-width: 900px) {
+
+  #sponsor1,
+  #sponsor2 {
+    display: inline-block;
+    max-width: 420px;
+    margin: 10px;
+  }
+}
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -344,8 +386,8 @@
         <div class="dept-card">
             <div> <h1>Sponsors for the event </h1></div>
             <br>
-            <img src="assets/WhatsApp Image 2026-02-17 at 10.31.30 PM.jpeg" width="500px" height="500px">
-            <img src="assets/united tekinfo.jpeg" width="500px" height="500px">
+            <img id="sponsor1" src="assets/WhatsApp Image 2026-02-17 at 10.31.30 PM.jpeg" width="500px" height="500px">
+            <img id="sponsor2"  src="assets/united tekinfo.jpeg" width="500px" height="500px">
         </div>
     </section>
 

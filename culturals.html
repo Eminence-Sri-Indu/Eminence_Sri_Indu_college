@@ -3,12 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cultural Events - Sri Indu Technofest</title>
+    <title>Cultural Performances - Sri Indu Technofest</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/culturals.css">
+    <style>
+        /* Performance Showcase Styles */
+        .performance-hero {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+                        rgba(106, 13, 173, 0.3) 0%, 
+                        rgba(236, 72, 153, 0.4) 50%, 
+                        rgba(255, 215, 79, 0.2) 100%);
+        }
+
+        .performance-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 79, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .performance-icon {
+            font-size: 4rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            animation: float 3s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        .performance-hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--neon-pink), var(--soft-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .performance-hero p {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .showcase-section {
+            padding: 80px 0;
+            background: rgba(11, 15, 26, 0.95);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px 35px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-pink);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--soft-yellow);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cyan);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 15px 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .filter-select option {
+            background: var(--deep-purple);
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--neon-pink), var(--deep-purple));
+            border-color: var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        .performances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .performance-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .performance-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.2);
+            border-color: var(--neon-pink);
+        }
+
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.3), rgba(236, 72, 153, 0.3));
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .performance-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: var(--neon-pink);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+        }
+
+        .participant-name {
+            font-size: 1.5rem;
+            color: var(--soft-yellow);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 8px;
+            padding-right: 40px;
+        }
+
+        .branch-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, var(--electric-blue), var(--deep-purple));
+            border-radius: 50px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .category-badge.solo {
+            background: rgba(255, 215, 79, 0.2);
+            color: var(--soft-yellow);
+            border: 1px solid var(--soft-yellow);
+        }
+
+        .category-badge.duo {
+            background: rgba(34, 211, 238, 0.2);
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+        }
+
+        .category-badge.group {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .songs-list {
+            margin: 15px 0;
+        }
+
+        .songs-title {
+            color: var(--cyan);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .song-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .song-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .duration-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--soft-yellow);
+        }
+
+        .duration-info i {
+            color: var(--neon-pink);
+        }
+
+        .note-tag {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Table Layout Styles (Alternative) */
+        .table-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow-x: auto;
+            margin-top: 40px;
+        }
+
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .performance-table th {
+            background: linear-gradient(135deg, var(--deep-purple), var(--neon-pink));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .performance-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .performance-table tr:hover {
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .table-sno {
+            font-weight: bold;
+            color: var(--neon-pink);
+            font-size: 1.1rem;
+        }
+
+        .table-branch {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(106, 13, 173, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .table-category {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .table-category.solo {
+            background: rgba(255, 215, 79, 0.2);
+            color: var(--soft-yellow);
+        }
+
+        .table-category.duo {
+            background: rgba(34, 211, 238, 0.2);
+            color: var(--cyan);
+        }
+
+        .table-category.group {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--neon-pink);
+        }
+
+        .table-songs {
+            max-width: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .table-song-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* Layout toggle buttons */
+        .layout-toggle {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .layout-btn {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .layout-btn.active {
+            background: linear-gradient(135deg, var(--neon-pink), var(--deep-purple));
+            border-color: var(--cyan);
+        }
+
+        .layout-btn i {
+            margin-right: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .performance-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .search-box,
+            .filter-select,
+            .category-filters {
+                width: 100%;
+            }
+
+            .category-filters {
+                justify-content: center;
+            }
+
+            .performances-grid {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .layout-toggle {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -22,7 +519,7 @@
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="index.html#departments" class="nav-link">Events</a>
-                <a href="culturals.html" class="nav-link active">Culturals</a>
+                <a href="culturals.html" class="nav-link active">Performances</a>
                 <a href="annualday.html" class="nav-link">Annual Day</a>
             </div>
             
@@ -34,308 +531,52 @@
         </div>
     </nav>
 
-    <!-- Cultural Hero Section -->
-    <section class="cultural-hero">
-        <div class="hero-background"></div>
-        <div class="hero-content">
-            <div class="cultural-icon">
-                <i class="fas fa-music"></i>
-            </div>
-            <h1 class="cultural-title">CULTURAL FEST'26</h1>
-            <h2 class="cultural-subtitle">Where Rhythm Meets Expression</h2>
-            <p class="cultural-tagline">Experience the vibrant colors of art, music, dance, and creativity</p>
-            <div class="hero-notes">
-                <i class="fas fa-music note-1"></i>
-                <i class="fas fa-guitar note-2"></i>
-                <i class="fas fa-drum note-3"></i>
-                <i class="fas fa-microphone note-4"></i>
-            </div>
+    <!-- Performance Hero Section -->
+    <section class="performance-hero">
+        <div class="performance-icon">
+            <i class="fas fa-star"></i>
         </div>
+        <h1>CULTURAL PERFORMANCES '26</h1>
+        <p>Showcasing the finest talent from Sri Indu Institutions</p>
     </section>
 
-    <!-- Live Stream Section -->
-    <section class="live-section">
+    <!-- Main Showcase Section -->
+    <section class="showcase-section">
         <div class="container">
-            <h2 class="section-title">Live Stream</h2>
-            <p class="section-subtitle">Watch the cultural events live from our campus</p>
-            
-            <div class="live-container">
-                <div class="live-player">
-                    <div class="live-placeholder">
-                        <i class="fas fa-video"></i>
-                        <p>Live Stream will begin on Feb 20, 2026 at 10:00 AM</p>
-                        <div class="live-countdown">
-                            <div class="countdown-item">
-                                <span class="countdown-number">00</span>
-                                <span class="countdown-label">Days</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-number">00</span>
-                                <span class="countdown-label">Hours</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-number">00</span>
-                                <span class="countdown-label">Minutes</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- YouTube Live Embed (Uncomment for actual event) -->
-                    <!--
-                    <div class="youtube-embed">
-                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    -->
-                </div>
-                
-                <div class="live-schedule">
-                    <h3><i class="fas fa-calendar-alt"></i> Today's Schedule</h3>
-                    <ul class="schedule-list">
-                        <li>
-                            <span class="schedule-time">10:00 AM</span>
-                            <span class="schedule-event">Cultural Fest Inauguration</span>
-                        </li>
-                        <li>
-                            <span class="schedule-time">11:00 AM</span>
-                            <span class="schedule-event">Classical Dance Competition</span>
-                        </li>
-                        <li>
-                            <span class="schedule-time">1:30 PM - 5:00 PM</span>
-                            <span class="schedule-event">Cultural Program (X3)</span>
-                        </li>
-                        <li>
-                            <span class="schedule-time">2:00 PM</span>
-                            <span class="schedule-event">Solo Singing Prelims</span>
-                        </li>
-                        <li>
-                            <span class="schedule-time">3:00 PM</span>
-                            <span class="schedule-event">Flash Mob (D4)</span>
-                        </li>
-                        <li>
-                            <span class="schedule-time">5:00 PM - 6:30 PM</span>
-                            <span class="schedule-event">Live Band Performance</span>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Stats -->
+            <div class="stats-container" id="statsContainer">
+                <!-- Populated by JS -->
             </div>
-        </div>
-    </section>
 
-    <!-- Cultural Events Grid -->
-    <section class="cultural-events">
-        <div class="container">
-            <h2 class="section-title">Cultural Events</h2>
-            <p class="section-subtitle">Participate in diverse cultural competitions and performances</p>
-            
-            <div class="events-grid">
-                <!-- Dance Event -->
-                <div class="cultural-card dance">
-                    <div class="event-image">
-                        <i class="fas fa-child"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Dance Competition</h3>
-                        <p class="event-category">Classical, Western & Folk</p>
-                        <p class="event-desc">Showcase your dancing skills in solo or group performances. Judged on rhythm, expression, and choreography.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 1 & 2</p>
-                            <p><i class="fas fa-clock"></i> 11:00 AM onwards</p>
-                            <p><i class="fas fa-users"></i> Solo or Group (max 8)</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
+            <!-- Filters -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name or branch...">
                 </div>
                 
-                <!-- Singing Event -->
-                <div class="cultural-card singing">
-                    <div class="event-image">
-                        <i class="fas fa-microphone-alt"></i>
+                <div class="filter-group">
+                    <select class="filter-select" id="branchFilter">
+                        <option value="all">All Branches</option>
+                    </select>
+                    
+                    <div class="category-filters" id="categoryFilters">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="Solo">Solo</button>
+                        <button class="category-btn" data-category="Duo">Duo</button>
+                        <button class="category-btn" data-category="Group">Group</button>
                     </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Singing Competition</h3>
-                        <p class="event-category">Classical & Contemporary</p>
-                        <p class="event-desc">Display your vocal talent in solo singing. Categories include classical, light music, and western.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 2</p>
-                            <p><i class="fas fa-clock"></i> 2:00 PM - 4:00 PM</p>
-                            <p><i class="fas fa-users"></i> Solo</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
-                </div>
-                
-                <!-- Drama Event -->
-                <div class="cultural-card drama">
-                    <div class="event-image">
-                        <i class="fas fa-theater-masks"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Drama & Skit</h3>
-                        <p class="event-category">Stage Play & Street Play</p>
-                        <p class="event-desc">Present theatrical performances on social themes. Time limit: 15 minutes per team.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 2</p>
-                            <p><i class="fas fa-clock"></i> 3:00 PM - 5:00 PM</p>
-                            <p><i class="fas fa-users"></i> Team (max 12)</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
-                </div>
-                
-                <!-- Fashion Show -->
-                <div class="cultural-card fashion">
-                    <div class="event-image">
-                        <i class="fas fa-tshirt"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Fashion Show</h3>
-                        <p class="event-category">Theme: Fusion & Futuristic</p>
-                        <p class="event-desc">Walk the runway with creative costumes. Themes include traditional fusion and futuristic fashion.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 2</p>
-                            <p><i class="fas fa-clock"></i> 6:00 PM - 7:00 PM</p>
-                            <p><i class="fas fa-users"></i> Team (8-15 members)</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
-                </div>
-                
-                <!-- Band Performance -->
-                <div class="cultural-card band">
-                    <div class="event-image">
-                        <i class="fas fa-guitar"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Band Performance</h3>
-                        <p class="event-category">Live Music Competition</p>
-                        <p class="event-desc">Showcase your band's musical talent. Any genre welcome. Time limit: 20 minutes per band.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 1 & 2</p>
-                            <p><i class="fas fa-clock"></i> 5:00 PM - 6:30 PM</p>
-                            <p><i class="fas fa-users"></i> Band (3-8 members)</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
-                </div>
-                
-                <!-- Fine Arts -->
-                <div class="cultural-card arts">
-                    <div class="event-image">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Fine Arts Exhibition</h3>
-                        <p class="event-category">Painting, Sketching & Crafts</p>
-                        <p class="event-desc">Display your artistic creations. Categories include painting, sketching, digital art, and craftwork.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> All Days</p>
-                            <p><i class="fas fa-clock"></i> 10:00 AM - 5:00 PM</p>
-                            <p><i class="fas fa-users"></i> Individual</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Register Now</a>
-                    </div>
-                </div>
-                
-                <!-- Flash Mob -->
-                <div class="cultural-card flashmob">
-                    <div class="event-image">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">Flash Mob</h3>
-                        <p class="event-category">Surprise Dance Performance</p>
-                        <p class="event-desc">Coordinated surprise dance performance at designated locations. Open to all students.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 1 & 2</p>
-                            <p><i class="fas fa-clock"></i> 3:00 PM sharp</p>
-                            <p><i class="fas fa-users"></i> Open to all</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Join Now</a>
-                    </div>
-                </div>
-                
-                <!-- DJ Night -->
-                <div class="cultural-card dj">
-                    <div class="event-image">
-                        <i class="fas fa-compact-disc"></i>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">DJ Night</h3>
-                        <p class="event-category">Musical Finale</p>
-                        <p class="event-desc">Dance to the beats of professional DJ. The grand finale of cultural fest.</p>
-                        <div class="event-info">
-                            <p><i class="fas fa-calendar"></i> Day 1 & 2</p>
-                            <p><i class="fas fa-clock"></i> 6:30 PM - 7:30 PM</p>
-                            <p><i class="fas fa-users"></i> Open to all</p>
-                        </div>
-                        <a href="https://forms.google.com" target="_blank" class="register-btn">Get Pass</a>
+                    
+                    <div class="layout-toggle">
+                        <button class="layout-btn active" id="gridLayoutBtn"><i class="fas fa-th"></i> Grid</button>
+                        <button class="layout-btn" id="tableLayoutBtn"><i class="fas fa-table"></i> Table</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Cultural Schedule -->
-    <section class="cultural-schedule">
-        <div class="container">
-            <h2 class="section-title">Cultural Schedule</h2>
-            <p class="section-subtitle">February 19-20, 2026 | Sri Indu Campus</p>
-            
-            <div class="schedule-table">
-                <div class="schedule-day">
-                    <h3 class="day-title">Day 1 - Feb 19</h3>
-                    <div class="day-events">
-                        <div class="time-slot">
-                            <span class="time">10:00 AM - 1:00 PM</span>
-                            <span class="event">Fun Games & Stalls Open</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">1:30 PM - 5:00 PM</span>
-                            <span class="event">Cultural Program (X3)</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">3:00 PM</span>
-                            <span class="event">Flash Mob (D4)</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">5:00 PM - 6:30 PM</span>
-                            <span class="event">Live Band Performance</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">6:30 PM - 7:30 PM</span>
-                            <span class="event">DJ Music</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="schedule-day">
-                    <h3 class="day-title">Day 2 - Feb 20</h3>
-                    <div class="day-events">
-                        <div class="time-slot">
-                            <span class="time">10:00 AM - 1:00 PM</span>
-                            <span class="event">Technical Events & Fun Games Continue</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">12:00 PM - 5:00 PM</span>
-                            <span class="event">Cultural Program (D4)</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">2:00 PM - 4:00 PM</span>
-                            <span class="event">Singing & Dance Finals</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">3:00 PM</span>
-                            <span class="event">Flash Mob (X3)</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">5:00 PM - 6:30 PM</span>
-                            <span class="event">Live Band Performance</span>
-                        </div>
-                        <div class="time-slot">
-                            <span class="time">6:30 PM - 7:30 PM</span>
-                            <span class="event">DJ Music & Closing</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Performances Container (Grid by default) -->
+            <div id="performancesContainer" class="performances-grid">
+                <!-- Populated by JS -->
             </div>
         </div>
     </section>
@@ -354,19 +595,19 @@
                 <div class="footer-col">
                     <h4 class="footer-subtitle">Cultural Coordinators</h4>
                     <ul class="coordinator-list">
-                        <li>Prof.Mrs.N.Shailaja - 8099928245</li>
-                        <li>Prof.Mrs.G.Uma Maheshwari - 9491209175</li>
-                        <li>Dr.P.Epsiba - 786351083</li>
-                        <li>Mrs.G.Manasi - 9676870549</li>
-                        <li>Mrs.G.Sravanthi - 9030620202</li>
+                        <li>Prof.Mrs.N.Shailaja</li>
+                        <li>Prof.Mrs.G.Uma Maheshwari</li>
+                        <li>Dr.P.Epsiba</li>
+                        <li>Mrs.G.Manasi</li>
+                        <li>Mrs.G.Sravanthi</li>
                     </ul>
                 </div>
                 
                 <div class="footer-col">
                     <h4 class="footer-subtitle">Student Coordinators</h4>
                     <ul class="coordinator-list">
-                        <li>M.Sai Charan - 9398932124</li>
-                        <li>T.Harini - 7207335715</li>
+                        <li>M.Sai Charan</li>
+                        <li>T.Harini</li>
                     </ul>
                 </div>
                 
@@ -375,29 +616,42 @@
                     <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="index.html#departments">Department Events</a></li>
-                        <li><a href="culturals.html">Culturals</a></li>
+                        <li><a href="culturals.html">Performances</a></li>
                         <li><a href="annualday.html">Annual Day</a></li>
                     </ul>
                     
                     <div class="social-icons">
-                        <a href="https://www.linkedin.com/company/sri-indu-institutions/?viewAsMember=true"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.linkedin.com/company/sri-indu-institutions/"><i class="fab fa-linkedin"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/eminence.2k26?igsh=MW1rbGNrcDA5bW05eQ%3D%3D&utm_source=qr"><i class="fab fa-instagram"></i></a>
-                        <a href="https://youtube.com/@sriinduinstitutions?si=jQshjGACWVUh2b1R"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/eminence.2k26"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@sriinduinstitutions"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <p>&copy; 2026 Sri Indu College of Engineering and Technology. All rights reserved.</p>
-                <p>Cultural Fest'26 - Where Rhythm Meets Expression</p>
+                <p>Cultural Performances'26 - Celebrating Talent</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/role-check.js"></script>
+    <script src="js/logout.js"></script>
+    
+    <!-- Performance Data -->
+    <script src="js/culturals-data.js"></script>
+    
+    <!-- Dynamic Rendering -->
     <script>
-        // Mobile navigation toggle
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile navigation toggle
             const hamburger = document.querySelector('.nav-hamburger');
             const navMenu = document.querySelector('.nav-menu');
             
@@ -406,7 +660,6 @@
                 navMenu.classList.toggle('active');
             });
             
-            // Close menu when clicking on a link
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -414,19 +667,216 @@
                     navMenu.classList.remove('active');
                 });
             });
+
+            // State
+            let currentBranch = 'all';
+            let currentCategory = 'all';
+            let currentSearch = '';
+            let currentLayout = 'grid'; // 'grid' or 'table'
+
+            // Populate branch filter
+            const branchFilter = document.getElementById('branchFilter');
+            uniqueBranches.forEach(branch => {
+                const option = document.createElement('option');
+                option.value = branch;
+                option.textContent = branch;
+                branchFilter.appendChild(option);
+            });
+
+            // Calculate stats
+            function updateStats() {
+                const total = performances.length;
+                const solo = performances.filter(p => p.category === 'Solo').length;
+                const duo = performances.filter(p => p.category === 'Duo').length;
+                const group = performances.filter(p => p.category === 'Group').length;
+                const branches = uniqueBranches.length;
+
+                document.getElementById('statsContainer').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${total}</div>
+                        <div class="stat-label">Total Performances</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${solo}</div>
+                        <div class="stat-label">Solo Acts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${duo}</div>
+                        <div class="stat-label">Duo Acts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${group}</div>
+                        <div class="stat-label">Group Acts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${branches}</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                `;
+            }
+
+            // Filter performances
+            function filterPerformances() {
+                return performances.filter(perf => {
+                    // Branch filter
+                    if (currentBranch !== 'all' && perf.branch !== currentBranch) {
+                        return false;
+                    }
+                    
+                    // Category filter
+                    if (currentCategory !== 'all' && perf.category !== currentCategory) {
+                        return false;
+                    }
+                    
+                    // Search filter
+                    if (currentSearch) {
+                        const searchTerm = currentSearch.toLowerCase();
+                        return perf.name.toLowerCase().includes(searchTerm) ||
+                               perf.branch.toLowerCase().includes(searchTerm);
+                    }
+                    
+                    return true;
+                });
+            }
+
+            // Render performances in grid layout with numbering
+            function renderGridLayout(filtered) {
+                return filtered.map((perf, index) => {
+                    const sequentialNumber = index + 1;
+                    
+                    return `
+                        <div class="performance-card">
+                            <div class="card-header">
+                                <div class="performance-number">${sequentialNumber}</div>
+                                <div class="participant-name">${perf.name}</div>
+                                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 5px;">
+                                    <span class="branch-badge">${perf.branch}</span>
+                                    <span class="category-badge ${perf.category.toLowerCase()}">${perf.category}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="songs-list">
+                                    <div class="songs-title">🎵 Performing</div>
+                                    <div class="song-items">
+                                        ${perf.songs.length > 0 ? 
+                                            perf.songs.map(song => `<span class="song-tag">${song}</span>`).join('') :
+                                            '<span class="song-tag">Song details TBD</span>'
+                                        }
+                                    </div>
+                                </div>
+                                <div class="duration-info">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <span>${perf.duration || 'Duration TBD'}</span>
+                                </div>
+                                ${perf.note ? `<div class="note-tag"><i class="fas fa-info-circle"></i> ${perf.note}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Render performances in table layout with numbering
+            function renderTableLayout(filtered) {
+                return `
+                    <div class="table-container">
+                        <table class="performance-table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Participant</th>
+                                    <th>Branch</th>
+                                    <th>Category</th>
+                                    <th>Songs</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${filtered.map((perf, index) => `
+                                    <tr>
+                                        <td class="table-sno">${index + 1}</td>
+                                        <td>${perf.name}</td>
+                                        <td><span class="table-branch">${perf.branch}</span></td>
+                                        <td><span class="table-category ${perf.category.toLowerCase()}">${perf.category}</span></td>
+                                        <td>
+                                            <div class="table-songs">
+                                                ${perf.songs.length > 0 ? 
+                                                    perf.songs.map(song => `<span class="table-song-tag">${song}</span>`).join('') :
+                                                    '<span>TBD</span>'
+                                                }
+                                            </div>
+                                        </td>
+                                        <td>${perf.duration || 'TBD'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // Render performances based on current layout
+            function renderPerformances() {
+                const filtered = filterPerformances();
+                const container = document.getElementById('performancesContainer');
+
+                if (filtered.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-microphone-slash"></i>
+                            <p>No performances found matching your filters</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (currentLayout === 'grid') {
+                    container.className = 'performances-grid';
+                    container.innerHTML = renderGridLayout(filtered);
+                } else {
+                    container.className = '';
+                    container.innerHTML = renderTableLayout(filtered);
+                }
+            }
+
+            // Event Listeners
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                renderPerformances();
+            });
+
+            document.getElementById('branchFilter').addEventListener('change', (e) => {
+                currentBranch = e.target.value;
+                renderPerformances();
+            });
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderPerformances();
+                });
+            });
+
+            // Layout toggle
+            document.getElementById('gridLayoutBtn').addEventListener('click', () => {
+                document.getElementById('gridLayoutBtn').classList.add('active');
+                document.getElementById('tableLayoutBtn').classList.remove('active');
+                currentLayout = 'grid';
+                renderPerformances();
+            });
+
+            document.getElementById('tableLayoutBtn').addEventListener('click', () => {
+                document.getElementById('tableLayoutBtn').classList.add('active');
+                document.getElementById('gridLayoutBtn').classList.remove('active');
+                currentLayout = 'table';
+                renderPerformances();
+            });
+
+            // Initial render
+            updateStats();
+            renderPerformances();
         });
     </script>
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-
-<!-- Project JS Files -->
-<script src="js/firebase-config.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/role-check.js"></script>
-<script src="js/events.js"></script>
-<script src="js/admin.js"></script>
-<script src="js/logout.js"></script>
 </body>
 </html>

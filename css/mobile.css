@@ -148,6 +148,31 @@
     .dept-name {
         font-size: 1.6rem;
     }
+
+    .HOD-info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 360px;
+        margin: 20px;
+    }
+    .HOD-details {
+        text-align: center;
+    }
+
+    .HOD-name {
+        font-size: 1.5rem;
+    }
+
+
+
+.HOD-image {
+    font-size: 4rem;
+    color: var(--soft-yellow);
+    margin-bottom: 20px;
+}
+
     
     /* Schedule timeline */
     .schedule-section {
